@@ -1,5 +1,5 @@
-from preparing import *
-from modeling import *
+from load_data import *
+from build_model import *
 from keras.models import load_model
 
 def fit(method):
@@ -20,10 +20,10 @@ def fit(method):
         model = model_baseline()
         model.summary()
         model.fit(x_train, y_train, epochs=20, batch_size=64)
+
+        # model = load_model(""model_baseline.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
         model.save("model_baseline.h5")
-
-        # model = load_model(""model_baseline.h5")
     else:
         pass
