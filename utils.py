@@ -20,9 +20,12 @@ def accessBinary(img, threshold=128):
     return img
 
 # 寻找边缘，返回边框的左上角和右下角（利用cv2.findContours）
-def findBorderContours(path, maxArea=50):
+def findBorderContours(path, maxArea=100):
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-    img = accessBinary(img)
+    # 去噪声
+    img_denoised = cv2.fastNlMeansDenoising(img)
+    img = accessBinary(img_denoised)
+    # cv2.imwrite("img_denoised.png", img_denoised)
     contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     borders = []
     for contour in contours:
@@ -32,22 +35,6 @@ def findBorderContours(path, maxArea=50):
             border = [(x, y), (x + w, y + h)]
             borders.append(border)
     return borders
-
-# 显示结果及边框
-def showResults(path, borders, results=None):
-    img = cv2.imread(path)
-    # 绘制
-    print(img.shape)
-    for i, border in enumerate(borders):
-        cv2.rectangle(img, border[0], border[1], (225, 105, 65))
-        if results:
-            cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_COMPLEX, 1.3, (0, 0, 255), 1)
-        # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
-    cv2.namedWindow("test", 0)
-    cv2.resizeWindow("test", 800, 600)
-    cv2.imshow('test', img)
-    cv2.imwrite("test1_result.png", img)
-    cv2.waitKey(0)
 
 def transMNIST(path, borders, size=(28, 28)):
     # 无符号整型uint8（0-255）
@@ -63,6 +50,23 @@ def transMNIST(path, borders, size=(28, 28)):
         targetImg = np.expand_dims(targetImg, axis=-1)
         imgData[i] = targetImg
     return imgData
+
+# 显示结果及边框并保存（为后续操作）
+def showResults(path, borders, results=None):
+    img = cv2.imread(path)
+    # 绘制
+    print(img.shape)
+    for i, border in enumerate(borders):
+        cv2.rectangle(img, border[0], border[1], (225, 105, 65))
+        if results:
+            cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
+        # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
+    cv2.namedWindow("test", 0)
+    cv2.resizeWindow("test", 800, 600)
+    cv2.imshow('test', img)
+    # 保存图像
+    cv2.imwrite("test1_result.png", img)
+    cv2.waitKey(0)
 
 
 # path = 'test1.jpg'
