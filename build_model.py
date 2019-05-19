@@ -30,3 +30,15 @@ def model_baseline():
     model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
 
     return model
+
+def model_baseline_letter():
+    # 多层感知机的baseline模型
+    model = Sequential()
+    model.add(Dense(input_dim=28*28, units=512, activation='relu'))
+    model.add(Dense(units=512, activation='relu'))
+    model.add(Dense(units=512, activation='relu'))
+    model.add(Dense(units=27, activation='softmax'))
+
+    model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
+
+    return model
