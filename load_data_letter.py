@@ -95,6 +95,10 @@ def load_data_baseline_letter():
     test_data = load_test_images()
     test_labels = load_test_labels()
 
+    # reshape to regular shape
+    train_data = reshape_data_letter(train_data)
+    test_data = reshape_data_letter(test_data)
+
     data_len = train_data.shape[0]
     x_train = train_data[0:data_len]
     y_train = train_labels[0:data_len]
@@ -108,6 +112,7 @@ def load_data_baseline_letter():
     x_test = x_test
     x_train = x_train / 255
     x_test = x_test / 255
+
     return (x_train, y_train), (x_test, y_test)
 
 def load_data_convolution_letter():
@@ -116,13 +121,31 @@ def load_data_convolution_letter():
     train_labels = load_train_labels()
     test_data = load_test_images()
     test_labels = load_test_labels()
+
+    # reshape to regular shape
+    train_data = reshape_data_letter(train_data)
+    test_data = reshape_data_letter(test_data)
+
     x_train = train_data.reshape((train_data.shape[0], 28, 28, 1))
     x_train = x_train.astype('float32') / 255
     x_test = test_data.reshape((test_data.shape[0], 28, 28, 1))
     x_test = x_test.astype('float32') / 255
     y_train = to_categorical(train_labels)
     y_test = to_categorical(test_labels)
+
     return (x_train, y_train), (x_test, y_test)
+
+# 哈皮数据集，图片格式居然经过了镜像+旋转，重新转回来
+def reshape_data_letter(x_train):
+    x_train = x_train.reshape(len(x_train), 28, 28)
+    n_data = len(x_train)
+    for i in range(n_data):
+        x_train[i] = np.rot90(x_train[i], -1)
+    for i in range(n_data):
+        for m in x_train[i]:
+            for j in range(14):
+                m[j], m[28 - 1 - j] = m[28 - 1 - j], m[j]
+    return x_train
 
 def model_convolution_letter():
     # 定义卷积神经网络模型
@@ -138,6 +161,26 @@ def model_convolution_letter():
 
     return model
 
+def showDatainPicture(_x, _y):
+    _x = _x.reshape(len(_x), 28, 28)
+    print(np.argmax(_y[10]), np.argmax(_y[11]),
+          np.argmax(_y[12]), np.argmax(_y[13]))
+    print(np.argmax(_y[14]), np.argmax(_y[15]))
+    plt.subplot(331)
+    plt.imshow(_x[10], cmap=plt.get_cmap('gray'))
+    plt.subplot(332)
+    plt.imshow(_x[11], cmap=plt.get_cmap('gray'))
+    plt.subplot(333)
+    plt.imshow(_x[12], cmap=plt.get_cmap('gray'))
+    plt.subplot(334)
+    plt.imshow(_x[13], cmap=plt.get_cmap('gray'))
+    plt.subplot(335)
+    plt.imshow(_x[14], cmap=plt.get_cmap('gray'))
+    plt.subplot(336)
+    plt.imshow(_x[15], cmap=plt.get_cmap('gray'))
+    # show the plot
+    plt.show()
+
 def run():
     # x_train = train_data.reshape((60000, 28, 28, 1))
     # x_train = x_train.astype('float32') / 255
@@ -146,37 +189,19 @@ def run():
     # y_train = to_categorical(train_labels)
     # y_test = to_categorical(test_labels)
 
-    # (x_train, y_train), (x_test, y_test) = load_data_baseline_letter()
-    # model = model_baseline_letter()
-    # model.summary()
-    # model.fit(x_train, y_train, epochs=10, batch_size=256)
+    (x_train, y_train), (x_test, y_test) = load_data_baseline_letter()
+    showDatainPicture(x_train, y_train)
+    model = model_baseline_letter()
+    model.summary()
+    model.fit(x_train, y_train, epochs=10, batch_size=256)
 
     # # model = load_model(""model_baseline.h5")
-    # loss, accuracy = model.evaluate(x_test, y_test)
-    # print('loss {}, acc {}'.format(loss, accuracy))
-    # model.save("model_baseline_letter_test1.h5")
+    loss, accuracy = model.evaluate(x_test, y_test)
+    print('loss {}, acc {}'.format(loss, accuracy))
+    model.save("model_baseline_letter_test1.h5")
 
-    (x_train, y_train), (x_test, y_test) = load_data_baseline_letter()
-    x_train = x_train.reshape(len(x_train), 28, 28)
-    for i in range(10):
-        x_train[i] = np.rot90(x_train[i], -1)
-    for i in range(10):
-        for m in x_train[i]:
-            for j in range(14):
-                m[j], m[28 - 1 - j] = m[28 - 1 - j], m[j]
-    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    print(x_train[0].shape)
-    print(np.argmax(y_train[0]), np.argmax(y_train[1]), np.argmax(y_train[2]), np.argmax(y_train[3]))
-    plt.subplot(221)
-    plt.imshow(x_train[0], cmap=plt.get_cmap('gray'))
-    plt.subplot(222)
-    plt.imshow(x_train[1], cmap=plt.get_cmap('gray'))
-    plt.subplot(223)
-    plt.imshow(x_train[2], cmap=plt.get_cmap('gray'))
-    plt.subplot(224)
-    plt.imshow(x_train[3], cmap=plt.get_cmap('gray'))
-    # show the plot
-    plt.show()
+    # (x_train, y_train), (x_test, y_test) = load_data_convolution_letter()
+    # showDatainPicture(x_train, y_train)
     # model = model_convolution_letter()
     # model.fit(x_train, y_train, epochs=1, batch_size=512, validation_split=0.1)
     # # model = load_model(""model_baseline.h5")

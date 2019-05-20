@@ -6,7 +6,7 @@ if __name__ == "__main__":
     # fit("convolution")
     # for numbers
     # img_path = r"images\test3.png"
-    img_path = r"images\A.jpg"
+    img_path = r"images\letter_test1.jpg"
     # model_path = "models\model_convolution.h5"
     model_path = "models\model_baseline_letter.h5"
     borders = findBorderContours(img_path)
