@@ -3,12 +3,6 @@ import struct
 import matplotlib.pyplot as plt
 
 # 训练集文件
-from keras import Sequential, layers
-from keras.datasets import mnist
-from keras.utils import to_categorical
-
-from build_model import model_baseline_letter
-
 train_images_idx3_ubyte_file = './Letter DataSet/emnist-letters-train-images-idx3-ubyte'
 # 训练集标签文件
 train_labels_idx1_ubyte_file = './Letter DataSet/emnist-letters-train-labels-idx1-ubyte'
@@ -88,53 +82,6 @@ def load_test_images(idx_ubyte_file=test_images_idx3_ubyte_file):
 def load_test_labels(idx_ubyte_file=test_labels_idx1_ubyte_file):
     return decode_idx1_ubyte(idx_ubyte_file)
 
-def load_data_baseline_letter():
-    train_data = load_train_images()
-    # print(train_images[0].shape)
-    train_labels = load_train_labels()
-    test_data = load_test_images()
-    test_labels = load_test_labels()
-
-    # reshape to regular shape
-    train_data = reshape_data_letter(train_data)
-    test_data = reshape_data_letter(test_data)
-
-    data_len = train_data.shape[0]
-    x_train = train_data[0:data_len]
-    y_train = train_labels[0:data_len]
-    x_train = x_train.reshape(data_len, 28 * 28)
-    x_test = test_data.reshape(test_data.shape[0], 28 * 28)
-    x_train = x_train.astype('float32')
-    x_test = x_test.astype('float32')
-    y_train = to_categorical(y_train, 27)
-    y_test = to_categorical(test_labels, 27)
-    x_train = x_train
-    x_test = x_test
-    x_train = x_train / 255
-    x_test = x_test / 255
-
-    return (x_train, y_train), (x_test, y_test)
-
-def load_data_convolution_letter():
-    train_data = load_train_images()
-    # print(train_images[0].shape)
-    train_labels = load_train_labels()
-    test_data = load_test_images()
-    test_labels = load_test_labels()
-
-    # reshape to regular shape
-    train_data = reshape_data_letter(train_data)
-    test_data = reshape_data_letter(test_data)
-
-    x_train = train_data.reshape((train_data.shape[0], 28, 28, 1))
-    x_train = x_train.astype('float32') / 255
-    x_test = test_data.reshape((test_data.shape[0], 28, 28, 1))
-    x_test = x_test.astype('float32') / 255
-    y_train = to_categorical(train_labels)
-    y_test = to_categorical(test_labels)
-
-    return (x_train, y_train), (x_test, y_test)
-
 # 哈皮数据集，图片格式居然经过了镜像+旋转，重新转回来
 def reshape_data_letter(x_train):
     x_train = x_train.reshape(len(x_train), 28, 28)
@@ -146,20 +93,6 @@ def reshape_data_letter(x_train):
             for j in range(14):
                 m[j], m[28 - 1 - j] = m[28 - 1 - j], m[j]
     return x_train
-
-def model_convolution_letter():
-    # 定义卷积神经网络模型
-    model = Sequential()
-    model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-    model.add(layers.Flatten())
-    model.add(layers.Dense(64, activation='relu'))
-    model.add(layers.Dense(27, activation='softmax'))
-
-    model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc'])
-
-    return model
 
 def showDatainPicture(_x, _y):
     _x = _x.reshape(len(_x), 28, 28)
@@ -180,35 +113,3 @@ def showDatainPicture(_x, _y):
     plt.imshow(_x[15], cmap=plt.get_cmap('gray'))
     # show the plot
     plt.show()
-
-def run():
-    # x_train = train_data.reshape((60000, 28, 28, 1))
-    # x_train = x_train.astype('float32') / 255
-    # x_test = test_data.reshape((10000, 28, 28, 1))
-    # x_test = x_test.astype('float32') / 255
-    # y_train = to_categorical(train_labels)
-    # y_test = to_categorical(test_labels)
-
-    (x_train, y_train), (x_test, y_test) = load_data_baseline_letter()
-    showDatainPicture(x_train, y_train)
-    model = model_baseline_letter()
-    model.summary()
-    model.fit(x_train, y_train, epochs=10, batch_size=256)
-
-    # # model = load_model(""model_baseline.h5")
-    loss, accuracy = model.evaluate(x_test, y_test)
-    print('loss {}, acc {}'.format(loss, accuracy))
-    model.save("model_baseline_letter_test1.h5")
-
-    # (x_train, y_train), (x_test, y_test) = load_data_convolution_letter()
-    # showDatainPicture(x_train, y_train)
-    # model = model_convolution_letter()
-    # model.fit(x_train, y_train, epochs=1, batch_size=512, validation_split=0.1)
-    # # model = load_model(""model_baseline.h5")
-    # loss, accuracy = model.evaluate(x_test, y_test)
-    # print('loss {}, acc {}'.format(loss, accuracy))
-    # model.save("model_convolution_letter_test1.h5")
-
-
-if __name__ == '__main__':
-    run()

@@ -87,9 +87,3 @@ def showResults(path, borders, results=None):
     # 保存图像
     cv2.imwrite("test1_result.png", img)
     cv2.waitKey(0)
-
-
-# path = 'test1.jpg'
-# borders = findBorderContours(path)
-# print(borders)
-# showResults(path, borders)
