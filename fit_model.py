@@ -4,7 +4,7 @@ from keras.models import load_model
 
 def fit(method):
     if method == "convolution":
-        (x_train, y_train), (x_test, y_test) = load_data_convolution()
+        (x_train, y_train), (x_test, y_test) = load_data_convolution_number()
         # model = model_convolution()
         # model.summary()
         # model.fit(x_train, y_train, epochs=5, batch_size=512, validation_split=0.1)
@@ -16,7 +16,7 @@ def fit(method):
         model.save("model_convolution.h5")
 
     elif method == "baseline":
-        (x_train, y_train), (x_test, y_test) = load_data_baseline()
+        (x_train, y_train), (x_test, y_test) = load_data_baseline_number()
         model = model_baseline()
         model.summary()
         model.fit(x_train, y_train, epochs=20, batch_size=64)

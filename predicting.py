@@ -5,6 +5,7 @@ from keras import models
 def predict(modelPath, imgMnist):
     model = load_model(modelPath)
     # astype将数组的数据类型从无符号整型转换为单精度浮点数
+    print(imgMnist.shape)
     img = imgMnist.astype('float32') / 255
     results = model.predict(img)  # 得到的是softmax结果
     result_number = []

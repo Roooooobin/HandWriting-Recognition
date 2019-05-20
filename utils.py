@@ -36,6 +36,7 @@ def findBorderContours(path, maxArea=100):
             borders.append(border)
     return borders
 
+# transmit to MNIST format for convolution model
 def transMNIST(path, borders, size=(28, 28)):
     # 无符号整型uint8（0-255）
     imgData = np.zeros((len(borders), size[0], size[0], 1), dtype='uint8')
@@ -49,17 +50,36 @@ def transMNIST(path, borders, size=(28, 28)):
         targetImg = cv2.resize(targetImg, size)
         targetImg = np.expand_dims(targetImg, axis=-1)
         imgData[i] = targetImg
+    print(imgData.shape)
+    return imgData
+
+# transmit to MNIST format for baseline model
+def transMNIST2(path, borders, size=(28, 28)):
+    # 无符号整型uint8（0-255）
+    imgData = np.zeros((len(borders), size[0] * size[0]), dtype='uint8')
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    img = accessBinary(img)
+    for i, border in enumerate(borders):
+        borderImg = img[border[0][1]:border[1][1], border[0][0]:border[1][0]]
+        # 根据最大边缘拓展像素
+        extendPiexl = (max(borderImg.shape) - min(borderImg.shape)) // 2
+        targetImg = cv2.copyMakeBorder(borderImg, 7, 7, extendPiexl + 7, extendPiexl + 7, cv2.BORDER_CONSTANT)
+        targetImg = cv2.resize(targetImg, size)
+        targetImg = targetImg.reshape(28 * 28)
+        # targetImg = np.expand_dims(targetImg, axis=-1)
+        imgData[i] = targetImg
+    print(imgData.shape)
     return imgData
 
 # 显示结果及边框并保存（为后续操作）
 def showResults(path, borders, results=None):
     img = cv2.imread(path)
     # 绘制
-    print(img.shape)
+    # print(img.shape)
     for i, border in enumerate(borders):
         cv2.rectangle(img, border[0], border[1], (225, 105, 65))
         if results:
-            cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
+            cv2.putText(img, chr(results[i]-1+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
         # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
     cv2.namedWindow("test", 0)
     cv2.resizeWindow("test", 800, 600)
