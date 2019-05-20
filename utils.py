@@ -79,7 +79,10 @@ def showResults(path, borders, results=None):
     for i, border in enumerate(borders):
         cv2.rectangle(img, border[0], border[1], (225, 105, 65))
         if results:
-            cv2.putText(img, chr(results[i]-1+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
+            if results[i] > 10:
+                cv2.putText(img, chr(results[i]-11+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
+            else:
+                cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
         # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
     cv2.namedWindow("test", 0)
     cv2.resizeWindow("test", 800, 600)
