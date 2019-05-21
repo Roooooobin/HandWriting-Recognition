@@ -37,7 +37,7 @@ def findBorderContours(path, maxArea=100):
     return borders
 
 # transmit to MNIST format for convolution model
-def transMNIST(path, borders, size=(28, 28)):
+def transMNIST_convolution(path, borders, size=(28, 28)):
     # 无符号整型uint8（0-255）
     imgData = np.zeros((len(borders), size[0], size[0], 1), dtype='uint8')
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
@@ -54,7 +54,7 @@ def transMNIST(path, borders, size=(28, 28)):
     return imgData
 
 # transmit to MNIST format for baseline model
-def transMNIST2(path, borders, size=(28, 28)):
+def transMNIST_baseline(path, borders, size=(28, 28)):
     # 无符号整型uint8（0-255）
     imgData = np.zeros((len(borders), size[0] * size[0]), dtype='uint8')
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
@@ -72,21 +72,27 @@ def transMNIST2(path, borders, size=(28, 28)):
     return imgData
 
 # 显示结果及边框并保存（为后续操作）
-def showResults(path, borders, results=None):
+def showResults(path, borders, method,results=None):
     img = cv2.imread(path)
     # 绘制
     # print(img.shape)
     for i, border in enumerate(borders):
         cv2.rectangle(img, border[0], border[1], (225, 105, 65))
         if results:
-            if results[i] > 10:
-                cv2.putText(img, chr(results[i]-11+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
-            else:
+            if method == "combined":
+                if results[i] > 10:
+                    cv2.putText(img, chr(results[i]-11+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
+                else:
+                    cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
+            elif method == "number":
                 cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
+            elif method == "letter":
+                cv2.putText(img, chr(results[i]-1+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
+            else: pass
         # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
     cv2.namedWindow("test", 0)
     cv2.resizeWindow("test", 800, 600)
     cv2.imshow('test', img)
     # 保存图像
-    cv2.imwrite("test1_result.png", img)
+    cv2.imwrite("test1_result1.png", img)
     cv2.waitKey(0)

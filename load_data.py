@@ -116,10 +116,10 @@ def load_data_baseline_combined():
     x_train_number = x_train_number / 255
     x_test_number = x_test_number / 255
 
-    y_train = label_extended(y_train_number, y_train_letter)
-    y_test = label_extended(y_test_number, y_test_letter)
-    x_train = data_combined(x_train_number, x_train_letter)
-    x_test = data_combined(x_test_number, x_test_letter)
+    y_train = label_extended2(y_train_number, y_train_letter)
+    y_test = label_extended2(y_test_number, y_test_letter)
+    x_train = data_combined2(x_train_number, x_train_letter)
+    x_test = data_combined2(x_test_number, x_test_letter)
 
     print(x_train.shape)
     print(y_train.shape)
@@ -177,10 +177,27 @@ def label_extended(label_number, label_letter):
         label_new.append(np.append(zeros, label_letter[i]))
     return np.array(label_new)
 
+# 将标签扩展为10+26维
+def label_extended2(label_number, label_letter):
+    label_new = []
+    zeros = [0] * 10
+    for i in range(len(label_letter) // 2):
+        label_new.append(np.append(zeros, label_letter[i]))
+    for i in range(len(label_number)):
+        # 在number的label后添加27个0
+        label_new.append(np.append(label_number[i], np.array([0]*27)))
+    return np.array(label_new)
+
 def data_combined(data_number, data_letter):
     data_new = list(data_number)
-    for x in data_letter:
-        data_new.append(list(x))
+    for i in range(len(data_letter)):
+        data_new.append(list(data_letter[i]))
+    return np.array(data_new)
+
+def data_combined2(data_number, data_letter):
+    data_new = list(data_letter[:len(data_letter) // 2])
+    for i in range(len(data_number)):
+        data_new.append(list(data_number[i]))
     return np.array(data_new)
 
 # (x_train, y_train), (x_test, y_test) = load_data_convolution_combined()
