@@ -13,7 +13,7 @@ def fit_number(method):
         # 看下测试集的损失值和准确率
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
-        model.save("model_convolution.h5")
+        model.save("model_convolution_number.h5")
 
     elif method == "baseline":
         (x_train, y_train), (x_test, y_test) = load_data_baseline_number()
@@ -24,7 +24,7 @@ def fit_number(method):
         # model = load_model(""model_baseline.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
-        model.save("model_baseline.h5")
+        model.save("model_baseline_number.h5")
     else:
         pass
 
@@ -50,7 +50,7 @@ def fit_letter(method):
         print('loss {}, acc {}'.format(loss, accuracy))
         model.save("model_convolution_letter.h5")
 
-def fit(method):
+def fit_combined(method):
     if method == "convolution":
         (x_train, y_train), (x_test, y_test) = load_data_baseline_combined()
         model = model_convolution_combined()

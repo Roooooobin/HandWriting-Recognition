@@ -37,9 +37,13 @@ def findBorderContours(path, maxArea=100):
     return borders
 
 # transmit to MNIST format for convolution model
-def transMNIST_convolution(path, borders, size=(28, 28)):
+def transMNIST_convolution(path, borders, method, size=(28, 28)):
     # 无符号整型uint8（0-255）
-    imgData = np.zeros((len(borders), size[0], size[0], 1), dtype='uint8')
+    if method == "convolution":
+        imgData = np.zeros((len(borders), size[0], size[0], 1), dtype='uint8')
+    elif method == "baseline":
+        imgData = np.zeros((len(borders), size[0] * size[0]), dtype='uint8')
+    else: pass
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     img = accessBinary(img)
     for i, border in enumerate(borders):
@@ -48,7 +52,11 @@ def transMNIST_convolution(path, borders, size=(28, 28)):
         extendPiexl = (max(borderImg.shape) - min(borderImg.shape)) // 2
         targetImg = cv2.copyMakeBorder(borderImg, 7, 7, extendPiexl + 7, extendPiexl + 7, cv2.BORDER_CONSTANT)
         targetImg = cv2.resize(targetImg, size)
-        targetImg = np.expand_dims(targetImg, axis=-1)
+        if method == "convolution":
+            targetImg = np.expand_dims(targetImg, axis=-1)
+        elif method == "baseline":
+            targetImg = targetImg.reshape(28 * 28)
+        else: pass
         imgData[i] = targetImg
     print(imgData.shape)
     return imgData
@@ -87,7 +95,7 @@ def showResults(path, borders, method,results=None):
             elif method == "number":
                 cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
             elif method == "letter":
-                cv2.putText(img, chr(results[i]-1+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
+                cv2.putText(img, chr(results[i]-1+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
             else: pass
         # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
     cv2.namedWindow("test", 0)
