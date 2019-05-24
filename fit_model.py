@@ -1,6 +1,12 @@
+from sklearn import svm
+from sklearn.externals import joblib
+from sklearn.neighbors import KNeighborsClassifier
 from load_data import *
 from build_model import *
 from keras.models import load_model
+
+from utils import reshape_label_classifier
+
 
 def fit_number(method):
     if method == "convolution":
@@ -75,3 +81,68 @@ def fit_combined(method):
         model.save("model_baseline1.h5")
     else:
         pass
+
+def fit_SVM_number():
+    (x_train, y_train), (x_test, y_test) = load_data_baseline_number()
+    y_train = reshape_label_classifier(y_train)
+    y_test = reshape_label_classifier(y_test)
+    clf_svm = svm.SVC(C=1, kernel='linear')
+    clf_svm.fit(x_train, y_train)
+    joblib.dump(clf_svm, "SVM(C=1)_number.m")
+    classifierResult = clf_svm.predict(x_test)
+    print("1")
+    errorCount = 0
+    for i in range(len(y_test)):
+        if classifierResult[i] != y_test[i]:
+            errorCount += 1
+
+    print("accuracy rate: {}".format((len(y_test) - errorCount) / len(y_test) * 100))
+
+
+def fit_SVM_letter():
+    (x_train, y_train), (x_test, y_test) = load_data_baseline_letter()
+    y_train = reshape_label_classifier(y_train)
+    y_test = reshape_label_classifier(y_test)
+    clf_svm = svm.SVC(C=1, kernel='linear')
+    clf_svm.fit(x_train, y_train)
+    joblib.dump(clf_svm, "SVM(C=1)_letter.m")
+    classifierResult = clf_svm.predict(x_test)
+    print("1")
+    errorCount = 0
+    for i in range(len(y_test)):
+        if classifierResult[i] != y_test[i]:
+            errorCount += 1
+
+    print("accuracy rate: {}".format((len(y_test) - errorCount) / len(y_test) * 100))
+
+def fit_KNN_number():
+    (x_train, y_train), (x_test, y_test) = load_data_baseline_number()
+    y_train = reshape_label_classifier(y_train)
+    y_test = reshape_label_classifier(y_test)
+    clf_knn = KNeighborsClassifier(algorithm='kd_tree', n_neighbors=3)
+    clf_knn.fit(x_train, y_train)
+    joblib.dump(clf_knn, "KNN(n=3)_number.m")
+    classifierResult = clf_knn.predict(x_test)
+    print("1")
+    errorCount = 0
+    for i in range(len(y_test)):
+        if classifierResult[i] != y_test[i]:
+            errorCount += 1
+
+    print("accuracy rate: {}".format((len(y_test) - errorCount) / len(y_test) * 100))
+
+def fit_KNN_letter():
+    (x_train, y_train), (x_test, y_test) = load_data_baseline_letter()
+    y_train = reshape_label_classifier(y_train)
+    y_test = reshape_label_classifier(y_test)
+    clf_knn = KNeighborsClassifier(algorithm='kd_tree', n_neighbors=3)
+    clf_knn.fit(x_train, y_train)
+    joblib.dump(clf_knn, "KNN(n=3)_letter.m")
+    classifierResult = clf_knn.predict(x_test)
+    print("1")
+    errorCount = 0
+    for i in range(len(y_test)):
+        if classifierResult[i] != y_test[i]:
+            errorCount += 1
+
+    print("accuracy rate: {}".format((len(y_test) - errorCount) / len(y_test) * 100))

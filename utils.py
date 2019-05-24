@@ -36,12 +36,12 @@ def findBorderContours(path, maxArea=100):
             borders.append(border)
     return borders
 
-# transmit to MNIST format for convolution model
-def transMNIST_convolution(path, borders, method, size=(28, 28)):
+# transmit to MNIST format
+def transMNIST(path, borders, method, size=(28, 28)):
     # 无符号整型uint8（0-255）
     if method == "convolution":
         imgData = np.zeros((len(borders), size[0], size[0], 1), dtype='uint8')
-    elif method == "baseline":
+    elif method == "baseline" or method == "CLF":
         imgData = np.zeros((len(borders), size[0] * size[0]), dtype='uint8')
     else: pass
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
@@ -54,32 +54,28 @@ def transMNIST_convolution(path, borders, method, size=(28, 28)):
         targetImg = cv2.resize(targetImg, size)
         if method == "convolution":
             targetImg = np.expand_dims(targetImg, axis=-1)
-        elif method == "baseline":
+        elif method == "baseline" or method == "SVM":
             targetImg = targetImg.reshape(28 * 28)
         else: pass
         imgData[i] = targetImg
     print(imgData.shape)
     return imgData
 
-# transmit to MNIST format for baseline model
-def transMNIST_baseline(path, borders, size=(28, 28)):
-    # 无符号整型uint8（0-255）
-    imgData = np.zeros((len(borders), size[0] * size[0]), dtype='uint8')
-    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-    img = accessBinary(img)
-    for i, border in enumerate(borders):
-        borderImg = img[border[0][1]:border[1][1], border[0][0]:border[1][0]]
-        # 根据最大边缘拓展像素
-        extendPiexl = (max(borderImg.shape) - min(borderImg.shape)) // 2
-        targetImg = cv2.copyMakeBorder(borderImg, 7, 7, extendPiexl + 7, extendPiexl + 7, cv2.BORDER_CONSTANT)
-        targetImg = cv2.resize(targetImg, size)
-        targetImg = targetImg.reshape(28 * 28)
-        # targetImg = np.expand_dims(targetImg, axis=-1)
-        imgData[i] = targetImg
-    print(imgData.shape)
-    return imgData
+# 由于分类器的标签数据集格式与神经网络不一样，所以需要调整
+# 分类器的标签就是一个个数字，而神经网络的是数字的one-hot编码(通过to_categorical转换过)
+def reshape_label_classifier(_y):
+    y_new = []
+    for i in range(len(_y)):
+        number = 0
+        for j in range(len(_y[i])):
+            if _y[i][j] == 1:
+                number = j
+                break
+        y_new.append(number)
 
-# 显示结果及边框并保存（为后续操作）
+    return y_new
+
+# 显示结果及边框并保存（后续上到界面可能会有微调）
 def showResults(path, borders, method,results=None):
     img = cv2.imread(path)
     # 绘制
@@ -87,6 +83,7 @@ def showResults(path, borders, method,results=None):
     for i, border in enumerate(borders):
         cv2.rectangle(img, border[0], border[1], (225, 105, 65))
         if results:
+            # 通过method来控制不同的显示方式，绿色表示数字，红色表示字母
             if method == "combined":
                 if results[i] > 10:
                     cv2.putText(img, chr(results[i]-11+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
