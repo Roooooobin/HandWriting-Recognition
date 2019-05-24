@@ -43,6 +43,7 @@ C越大，相当于惩罚松弛变量，希望松弛变量接近0，即对误分
 # joblib.dump(clf_svm, "svm.m")
 clf_svm = joblib.load("svm.m")
 print("1")
+print(x_test.shape)
 classifierResult = clf_svm.predict(x_test)
 print("1")
 errorCount = 0

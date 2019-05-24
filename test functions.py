@@ -38,7 +38,11 @@ import numpy as np
 # print(label_new)
 # print(type(label_new))
 
-label = np.array([[1, 2], [1, 3]])
-label2 = np.array([[1, 2], [1, 3]])
-l = list(label)
-print(type(np.array(l)))
+# label = np.array([[1, 2], [1, 3]])
+# label2 = np.array([[1, 2], [1, 3]])
+# l = list(label)
+# print(type(np.array(l)))
+
+Tuple = [[(0, 1), (2, 3)], [(3, 2), (1, 2)], [(1, 2), (2, 1)]]
+Tuple = sorted(Tuple, key=lambda x: (x[0]))
+print(Tuple)

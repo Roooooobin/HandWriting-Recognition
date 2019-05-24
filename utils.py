@@ -20,7 +20,7 @@ def accessBinary(img, threshold=128):
     return img
 
 # 寻找边缘，返回边框的左上角和右下角（利用cv2.findContours）
-def findBorderContours(path, maxArea=100):
+def findBorderContours(path, maxArea=200):
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     # 去噪声
     img_denoised = cv2.fastNlMeansDenoising(img)
@@ -34,7 +34,8 @@ def findBorderContours(path, maxArea=100):
         if w * h > maxArea:
             border = [(x, y), (x + w, y + h)]
             borders.append(border)
-    return borders
+    # 由于findContours函数返回结果的无序性，简单地按照x坐标排序
+    return sorted(borders, key=lambda b: b[0])
 
 # transmit to MNIST format
 def transMNIST(path, borders, method, size=(28, 28)):
@@ -78,11 +79,13 @@ def reshape_label_classifier(_y):
 # 显示结果及边框并保存（后续上到界面可能会有微调）
 def showResults(path, borders, method,results=None):
     img = cv2.imread(path)
+    ret = []
     # 绘制
     # print(img.shape)
     for i, border in enumerate(borders):
         cv2.rectangle(img, border[0], border[1], (225, 105, 65))
         if results:
+            ret.append(results[i])
             # 通过method来控制不同的显示方式，绿色表示数字，红色表示字母
             if method == "combined":
                 if results[i] > 10:
@@ -101,3 +104,4 @@ def showResults(path, borders, method,results=None):
     # 保存图像
     cv2.imwrite("test1_result1.png", img)
     cv2.waitKey(0)
+    return ret
