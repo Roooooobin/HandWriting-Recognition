@@ -43,6 +43,14 @@ import numpy as np
 # l = list(label)
 # print(type(np.array(l)))
 
-Tuple = [[(0, 1), (2, 3)], [(3, 2), (1, 2)], [(1, 2), (2, 1)]]
-Tuple = sorted(Tuple, key=lambda x: (x[0]))
-print(Tuple)
+# Tuple = [[(0, 1), (2, 3)], [(3, 2), (1, 2)], [(1, 2), (2, 1)]]
+# Tuple = sorted(Tuple, key=lambda x: (x[0]))
+# print(Tuple)
+
+def test(result):
+    result.append(1)
+
+
+t = []
+test(t)
+print(t)

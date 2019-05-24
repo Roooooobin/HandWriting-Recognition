@@ -3,21 +3,18 @@ import numpy as np
 from sklearn.externals import joblib
 
 
-def predict(modelPath, imgMnist, method):
+def predict(modelPath, imgMnist, method, result):
     if method == "CLF":
         model = joblib.load(modelPath)
     else:
         model = load_model(modelPath)
     # astype将数组的数据类型从无符号整型转换为单精度浮点数
     img = imgMnist.astype('float32') / 255
-    print("123" + str(img.shape))
     results = model.predict(img)  # 得到的是softmax结果
-    result_number = []
-    if method == "SVM":
+    if method == "CLF":
         for res in results:
-            result_number.append(res)
+            result.append(res)
     elif method == "baseline" or method == "convolution":
         for res in results:
-            result_number.append(np.argmax(res))
+            result.append(np.argmax(res))
             # 使用np.argmax找出其中值最大的参数作为预测数字
-    return result_number
