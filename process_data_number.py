@@ -1,14 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Aug 11 10:06:46 2018
-
-@author: yzhang
-"""
-
 import os
 import struct
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image
 
 def load_mnist_image(path, filename, type='train'):

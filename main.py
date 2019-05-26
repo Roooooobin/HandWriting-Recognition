@@ -45,16 +45,17 @@ if __name__ == "__main__":
     # 图片的路径
     # img_path = r"images\test3.png"
     # img_path = r"images\number_test3.jpg"
-    img_path = r"images\letter_test2.jpg"
-    # img_path = r"D:\Letters DataSet\letters_train\13\13_52.png"
+    # img_path = r"images\letter_test2.jpg"
+    # img_path = r"D:\data_images\train_letter\13\13_52.png"
+    img_path = r"D:\data_images\train_number\train_4.bmp"
 
     # 模型的路径
     # model_path = "models\model_convolution_number.h5"
-    model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"
+    model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_number.m"
     # model_path = "model_baseline1.h5"
 
     # 运行并返回预测结果
-    prediction = run(img_path, model_path, "CLF", "letter")
+    prediction = run(img_path, model_path, "CLF", "number")
     print(prediction)
     # run(img_path, model_path, "CLF", "letter")
     # run_original_files(img_path, model_path, "baseline", "letter")
