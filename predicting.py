@@ -3,7 +3,8 @@ import numpy as np
 from sklearn.externals import joblib
 
 
-def predict(modelPath, imgMnist, method, result):
+def predict(modelPath, imgMnist, method):
+    result = []
     if method == "CLF":
         model = joblib.load(modelPath)
     else:
@@ -18,3 +19,4 @@ def predict(modelPath, imgMnist, method, result):
         for res in results:
             result.append(np.argmax(res))
             # 使用np.argmax找出其中值最大的参数作为预测数字
+    return result

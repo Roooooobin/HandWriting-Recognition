@@ -3,15 +3,18 @@ from utils import *
 from predicting import predict
 
 def fit_model():
-    # fit_combined("baseline")
-    # fit_letter("convolution")
-    # fit_number("convolution")
-    # fit_SVM_number()
-    # fit_SVM_letter()
-    # fit_KNN_number()
+    fit_combined("convolution")
+    fit_combined("baseline")
+    fit_letter("convolution")
+    fit_letter("baseline")
+    fit_number("convolution")
+    fit_number("baseline")
+    fit_SVM_letter()
+    fit_SVM_number()
     fit_KNN_letter()
+    fit_KNN_number()
 
-def run(imgPath, modelPath, method, target, prediction):
+def run(imgPath, modelPath, method, target):
     img = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
     borders = None
     flag = None
@@ -29,9 +32,10 @@ def run(imgPath, modelPath, method, target, prediction):
     # 显示标记了测试结果的图片
     # print(predict_result)
     # 得到预测结果
-    predict(modelPath, img_mnist, method, prediction)
+    prediction = predict(modelPath, img_mnist, method)
     if flag == 0:
         showResults(imgPath, borders, target, prediction)
+    return transformResult(prediction, target)
 
 
 if __name__ == "__main__":
@@ -40,17 +44,17 @@ if __name__ == "__main__":
 
     # 图片的路径
     # img_path = r"images\test3.png"
-    img_path = r"images\test_combined2.jpg"
+    # img_path = r"images\number_test3.jpg"
+    img_path = r"images\letter_test2.jpg"
     # img_path = r"D:\Letters DataSet\letters_train\13\13_52.png"
 
     # 模型的路径
-    model_path = "models\model_baseline_letter.h5"
-    # model_path = "KNN(n=3)_letter.m"
+    # model_path = "models\model_convolution_number.h5"
+    model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"
     # model_path = "model_baseline1.h5"
 
-    prediction = []
-    # 运行
-    run(img_path, model_path, "baseline", "letter", prediction)
+    # 运行并返回预测结果
+    prediction = run(img_path, model_path, "CLF", "letter")
     print(prediction)
     # run(img_path, model_path, "CLF", "letter")
     # run_original_files(img_path, model_path, "baseline", "letter")

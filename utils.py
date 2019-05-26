@@ -55,7 +55,7 @@ def transMNIST(path, borders, method, size=(28, 28)):
         targetImg = cv2.resize(targetImg, size)
         if method == "convolution":
             targetImg = np.expand_dims(targetImg, axis=-1)
-        elif method == "baseline" or method == "SVM":
+        elif method == "baseline" or method == "CLF":
             targetImg = targetImg.reshape(28 * 28)
         else: pass
         imgData[i] = targetImg
@@ -103,3 +103,14 @@ def showResults(path, borders, method, results=None):
     cv2.imwrite("test1_result1.png", img)
     cv2.waitKey(0)
     # return ret
+
+# 根据不同的识别目标转换为合适的预测结果表示
+def transformResult(prediction, target):
+    ret = []
+    if target == "letter":
+        ret = [chr(x-1+65) for x in prediction]
+    elif target == "number":
+        return prediction
+    elif target == "combined":
+        ret = [chr(x-11+65) if x > 10 else x for x in prediction]
+    return ret

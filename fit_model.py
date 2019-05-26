@@ -15,7 +15,7 @@ def fit_number(method):
         # model.summary()
         # model.fit(x_train, y_train, epochs=5, batch_size=512, validation_split=0.1)
 
-        model = load_model("model_convolution.h5")
+        model = load_model("model_convolution_number.h5")
         # 看下测试集的损失值和准确率
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
@@ -27,7 +27,7 @@ def fit_number(method):
         model.summary()
         model.fit(x_train, y_train, epochs=10, batch_size=256)
 
-        # model = load_model(""model_baseline.h5")
+        # model = load_model(""model_baseline_number.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
         model.save("model_baseline_number.h5")
@@ -42,7 +42,7 @@ def fit_letter(method):
         model.summary()
         model.fit(x_train, y_train, epochs=10, batch_size=256)
 
-        # # model = load_model(""model_baseline.h5")
+        # # model = load_model(""model_baseline_letter.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
         model.save("model_baseline_letter.h5")
@@ -51,7 +51,7 @@ def fit_letter(method):
         # showDatainPicture(x_train, y_train)
         model = model_convolution_letter()
         model.fit(x_train, y_train, epochs=5, batch_size=512, validation_split=0.1)
-        # model = load_model(""model_baseline.h5")
+        # model = load_model(""model_convolution_letter.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
         model.save("model_convolution_letter.h5")
@@ -63,11 +63,11 @@ def fit_combined(method):
         # model.summary()
         model.fit(x_train, y_train, epochs=5, batch_size=512, validation_split=0.1)
 
-        # model = load_model("model_convolution.h5")
+        # model = load_model("model_convolution_combined.h5")
         # 看下测试集的损失值和准确率
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
-        model.save("model_convolution.h5")
+        model.save("model_convolution_combined.h5")
 
     elif method == "baseline":
         (x_train, y_train), (x_test, y_test) = load_data_baseline_combined()
@@ -75,10 +75,10 @@ def fit_combined(method):
         model.summary()
         model.fit(x_train, y_train, epochs=10, batch_size=256)
 
-        # model = load_model(""model_baseline.h5")
+        # model = load_model(""model_baseline_combined.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
-        model.save("model_baseline1.h5")
+        model.save("model_baseline_combined.h5")
     else:
         pass
 
@@ -90,7 +90,6 @@ def fit_SVM_number():
     clf_svm.fit(x_train, y_train)
     joblib.dump(clf_svm, "SVM(C=1)_number.m")
     classifierResult = clf_svm.predict(x_test)
-    print("1")
     errorCount = 0
     for i in range(len(y_test)):
         if classifierResult[i] != y_test[i]:
@@ -107,7 +106,6 @@ def fit_SVM_letter():
     clf_svm.fit(x_train, y_train)
     joblib.dump(clf_svm, "SVM(C=1)_letter.m")
     classifierResult = clf_svm.predict(x_test)
-    print("1")
     errorCount = 0
     for i in range(len(y_test)):
         if classifierResult[i] != y_test[i]:
@@ -123,7 +121,6 @@ def fit_KNN_number():
     clf_knn.fit(x_train, y_train)
     joblib.dump(clf_knn, "KNN(n=3)_number.m")
     classifierResult = clf_knn.predict(x_test)
-    print("1")
     errorCount = 0
     for i in range(len(y_test)):
         if classifierResult[i] != y_test[i]:
@@ -139,7 +136,6 @@ def fit_KNN_letter():
     clf_knn.fit(x_train, y_train)
     joblib.dump(clf_knn, "KNN(n=3)_letter.m")
     classifierResult = clf_knn.predict(x_test)
-    print("1")
     errorCount = 0
     for i in range(len(y_test)):
         if classifierResult[i] != y_test[i]:

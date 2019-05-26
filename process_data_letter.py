@@ -82,7 +82,7 @@ def load_test_images(idx_ubyte_file=test_images_idx3_ubyte_file):
 def load_test_labels(idx_ubyte_file=test_labels_idx1_ubyte_file):
     return decode_idx1_ubyte(idx_ubyte_file)
 
-# 哈皮数据集，图片格式居然经过了镜像+旋转，重新转回来
+# dd数据集，图片格式居然经过了镜像+旋转，重新转回来
 def reshape_data_letter(x_train):
     x_train = x_train.reshape(len(x_train), 28, 28)
     n_data = len(x_train)
