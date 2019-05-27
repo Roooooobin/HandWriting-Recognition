@@ -20,7 +20,7 @@ def fit_number(method):
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
         model.save("model_convolution_number.h5")
-
+    # baseline仅仅是一般神经网络的代称（“对照组”/“基准”）
     elif method == "baseline":
         (x_train, y_train), (x_test, y_test) = load_data_baseline_number()
         model = model_baseline()

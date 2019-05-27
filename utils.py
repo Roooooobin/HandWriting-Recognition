@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 
 # 反相灰度图，将黑白阈值颠倒
+# 灰度值为0表示黑色，图片一般背景为白色，目标为黑色，所以需要反相
 def accessPiexl(img):
     height = img.shape[0]
     width = img.shape[1]
@@ -11,6 +12,7 @@ def accessPiexl(img):
     return img
 
 # 反相二值化图像
+# 设置一个阈值，将图像分为两部分，分成更明显的黑和白，更加有利于做图像处理判别
 def accessBinary(img, threshold=128):
     img = accessPiexl(img)
     # 边缘膨胀，不加也可以
@@ -38,6 +40,8 @@ def findBorderContours(path, maxArea=200):
     return sorted(borders, key=lambda b: b[0])
 
 # transmit to MNIST format
+# 卷积的输入应是四维（图片数量，图片高度，图片宽度，图像通道数），本实验是灰度图，通道数为1
+# 其他模型的输入均是三维（图片数量，图片高度，图片宽度）
 def transMNIST(path, borders, method, size=(28, 28)):
     # 无符号整型uint8（0-255）
     if method == "convolution":
@@ -63,7 +67,7 @@ def transMNIST(path, borders, method, size=(28, 28)):
     return imgData
 
 # 由于分类器的标签数据集格式与神经网络不一样，所以需要调整
-# 分类器的标签就是一个个数字，而神经网络的是数字的one-hot编码(通过to_categorical转换过)
+# 分类器的标签就是单个数字，而神经网络的是数字的one-hot编码(通过to_categorical转换过)
 def reshape_label_classifier(_y):
     y_new = []
     for i in range(len(_y)):
