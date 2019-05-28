@@ -14,7 +14,7 @@ def load_mnist_image(path, filename, type='train'):
     for image in range(0, num):
         im = struct.unpack_from('>784B', buf, index)
         index += struct.calcsize('>784B')
-        im = np.array(im, dtype = 'uint8')
+        im = np.array(im, dtype='uint8')
         im = im.reshape(28, 28)
         im = Image.fromarray(im)
         if type == 'train':

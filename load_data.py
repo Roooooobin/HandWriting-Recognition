@@ -200,4 +200,3 @@ def data_combined2(data_number, data_letter):
         data_new.append(list(data_number[i]))
     return np.array(data_new)
 
-# (x_train, y_train), (x_test, y_test) = load_data_convolution_combined()

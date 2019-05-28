@@ -24,7 +24,7 @@ def fit_number(method):
     elif method == "baseline":
         (x_train, y_train), (x_test, y_test) = load_data_baseline_number()
         model = model_baseline()
-        model.summary()
+        model.summary()  # 显示模型信息摘要
         model.fit(x_train, y_train, epochs=10, batch_size=256)
 
         # model = load_model(""model_baseline_number.h5")

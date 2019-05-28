@@ -1,7 +1,6 @@
-from keras.layers import Dense, Dropout
+from keras.layers import Dense
 from keras.models import Sequential
 from keras import layers
-import numpy as np
 
 def model_convolution():
     # 定义卷积神经网络模型（数字）

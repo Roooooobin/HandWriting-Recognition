@@ -3,14 +3,14 @@ import struct
 import matplotlib.pyplot as plt
 
 # 训练集文件
-train_images_idx3_ubyte_file = './Letter DataSet/emnist-letters-train-images-idx3-ubyte'
+train_images_idx3_ubyte_file = './EMNIST_letter/emnist-letters-train-images-idx3-ubyte'
 # 训练集标签文件
-train_labels_idx1_ubyte_file = './Letter DataSet/emnist-letters-train-labels-idx1-ubyte'
+train_labels_idx1_ubyte_file = './EMNIST_letter/emnist-letters-train-labels-idx1-ubyte'
 
 # 测试集文件
-test_images_idx3_ubyte_file = './Letter DataSet/emnist-letters-test-images-idx3-ubyte'
+test_images_idx3_ubyte_file = './EMNIST_letter/emnist-letters-test-images-idx3-ubyte'
 # 测试集标签文件
-test_labels_idx1_ubyte_file = './Letter DataSet/emnist-letters-test-labels-idx1-ubyte'
+test_labels_idx1_ubyte_file = './EMNIST_letter/emnist-letters-test-labels-idx1-ubyte'
 
 
 def decode_idx3_ubyte(idx3_ubyte_file):
