@@ -2,6 +2,19 @@ from fit_model import *
 from utils import *
 from predicting import predict
 
+name_sub = {"CNN": "convolution", "NN": "baseline", "SVM": "CLF", "KNN": "CLF"}
+
+model_path_dic = {"CNN": {"number": "models\model_convolution_number.h5",
+                          "letter": "models\model_convolution_letter.h5"},
+                  "NN": {"number": "models\model_baseline_number.h5",
+                         "letter": "models\model_baseline_letter.h5"},
+                  "SVM": {"number": r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_number.m",
+                          "letter": r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_letter.m"},
+                  "KNN": {"number": r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_number.m",
+                          "letter": r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"}
+                  }
+
+
 def fit_model():
     fit_combined("convolution")
     fit_combined("baseline")
@@ -13,6 +26,7 @@ def fit_model():
     fit_SVM_number()
     fit_KNN_letter()
     fit_KNN_number()
+
 
 def run(imgPath, modelPath, method, target):
     # 训练模型并保存
@@ -41,21 +55,24 @@ def run(imgPath, modelPath, method, target):
 
 
 if __name__ == "__main__":
-
     # 图片的路径
-    # img_path = r"images\test3.png"
-    # img_path = r"images\number_test3.jpg"
-    img_path = r"images\letter_test5.jpg"
+    img_path = r"images\testImage.png"
+    # img_path = r"images\number_test4.png"
+    # img_path = r"images\letter_test5.jpg"
     # img_path = r"D:\data_images\train_letter\13\13_52.png"
     # img_path = r"D:\data_images\train_number\train_4.bmp"
 
     # 模型的路径
-    model_path = "models\model_baseline_letter.h5"
-    # model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_number.m"
-    # model_path = "model_baseline1.h5"
+    # model_path = "models\model_convolution_letter.h5"
+    # model_path = "models\model_convolution_number.h5"
+    # model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"
+    # model_path = r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_number.m"
 
+    algorithm = "KNN"
+    target = "number"
+    model_path = model_path_dic[algorithm][target]
     # 运行并返回预测结果
-    prediction = run(img_path, model_path, "baseline", "letter")
+    prediction = run(img_path, model_path, name_sub[algorithm], target)
     print(prediction)
     # run(img_path, model_path, "CLF", "letter")
     # run_original_files(img_path, model_path, "baseline", "letter")

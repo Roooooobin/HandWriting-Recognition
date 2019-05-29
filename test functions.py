@@ -1,4 +1,5 @@
 import numpy as np
+import random as rd
 #
 # m = np.array([1, 2, 3])
 # n = np.array([2, 3, 4])
@@ -47,10 +48,31 @@ import numpy as np
 # Tuple = sorted(Tuple, key=lambda x: (x[0]))
 # print(Tuple)
 
-def test(result):
-    result.append(1)
+# def test(result):
+#     result.append(1)
+#
+#
+# t = []
+# test(t)
+# print(t)
 
+array = np.zeros((10, 3))
+for i in range(0, len(array)):
+    for j in range(0, len(array[0])):
+        array[i][j] = i + j
+print(array)
 
-t = []
-test(t)
-print(t)
+sequence = list(range(0, len(array)))
+rd.shuffle(sequence)
+print(sequence)
+x_test_new = []
+y_test_new = []
+for i in sequence[:5]:
+    x_test_new.append(array[i])
+
+x_test_new = np.array(x_test_new)
+print(x_test_new)
+
+from datetime import datetime as dt
+
+print(dt.now())
