@@ -15,6 +15,8 @@ def fit_model():
     fit_KNN_number()
 
 def run(imgPath, modelPath, method, target):
+    # 训练模型并保存
+    # fit_model()
     img = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
     borders = None
     flag = None
@@ -39,23 +41,21 @@ def run(imgPath, modelPath, method, target):
 
 
 if __name__ == "__main__":
-    # 训练模型并保存
-    # fit_model()
 
     # 图片的路径
     # img_path = r"images\test3.png"
     # img_path = r"images\number_test3.jpg"
-    img_path = r"images\1.jpg"
+    img_path = r"images\letter_test5.jpg"
     # img_path = r"D:\data_images\train_letter\13\13_52.png"
     # img_path = r"D:\data_images\train_number\train_4.bmp"
 
     # 模型的路径
-    model_path = "models\model_convolution_letter.h5"
+    model_path = "models\model_baseline_letter.h5"
     # model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_number.m"
     # model_path = "model_baseline1.h5"
 
     # 运行并返回预测结果
-    prediction = run(img_path, model_path, "convolution", "letter")
+    prediction = run(img_path, model_path, "baseline", "letter")
     print(prediction)
     # run(img_path, model_path, "CLF", "letter")
     # run_original_files(img_path, model_path, "baseline", "letter")
