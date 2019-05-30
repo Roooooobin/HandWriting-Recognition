@@ -166,7 +166,7 @@ def load_data_convolution_combined():
 
     return (x_train, y_train), (x_test, y_test)
 
-# 将标签扩展为10+26维
+# 将标签扩展为10+27维
 def label_extended(label_number, label_letter):
     label_new = []
     for i in range(len(label_number)):
@@ -177,7 +177,7 @@ def label_extended(label_number, label_letter):
         label_new.append(np.append(zeros, label_letter[i]))
     return np.array(label_new)
 
-# 将标签扩展为10+26维
+# 将标签扩展为10+27维
 def label_extended2(label_number, label_letter):
     label_new = []
     zeros = [0] * 10

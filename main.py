@@ -2,12 +2,13 @@ from fit_model import *
 from utils import *
 from predicting import predict
 
-name_sub = {"CNN": "convolution", "NN": "baseline", "SVM": "CLF", "KNN": "CLF"}
+algorithmName_sub = {"CNN": "convolution", "NN": "baseline", "SVM": "CLF", "KNN": "CLF"}
 
 model_path_dic = {"CNN": {"number": "models\model_convolution_number.h5",
                           "letter": "models\model_convolution_letter.h5"},
                   "NN": {"number": "models\model_baseline_number.h5",
-                         "letter": "models\model_baseline_letter.h5"},
+                         "letter": "models\model_baseline_letter.h5",
+                         "combined": "models\model_baseline_combine.h5"},
                   "SVM": {"number": r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_number.m",
                           "letter": r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_letter.m"},
                   "KNN": {"number": r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_number.m",
@@ -72,7 +73,7 @@ if __name__ == "__main__":
     target = "number"
     model_path = model_path_dic[algorithm][target]
     # 运行并返回预测结果
-    prediction = run(img_path, model_path, name_sub[algorithm], target)
+    prediction = run(img_path, model_path, algorithmName_sub[algorithm], target)
     print(prediction)
     # run(img_path, model_path, "CLF", "letter")
     # run_original_files(img_path, model_path, "baseline", "letter")

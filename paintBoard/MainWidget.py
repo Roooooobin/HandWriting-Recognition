@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QPushButton, QSplitter, \
     QComboBox, QLabel, QSpinBox, QFileDialog
 from PaintBoard import PaintBoard
 from main import run
+from main import algorithmName_sub, model_path_dic
 
 
 class MainWidget(QWidget):
@@ -124,9 +125,11 @@ class MainWidget(QWidget):
     def on_btn_Save_Clicked(self):
         image = self.__paintBoard.GetContentAsQImage()
         img_path = "./images/testImage.png"
-        model_path = "models\model_convolution_number.h5"
+        algorithm = "NN"
+        target = "letter"
+        model_path = model_path_dic[algorithm][target]
         image.save(img_path)
-        prediction = run(img_path, model_path, "convolution", "number")
+        prediction = run(img_path, model_path, algorithmName_sub[algorithm], target)
         print(prediction)
 
     def on_cbtn_Eraser_clicked(self):

@@ -2,6 +2,7 @@ Accuracy of CNN for recognizing number: 99.23%
 Accuracy of CNN for recognizing letter: 82.90%
 Accuracy of NN for recognizing number: 97.26%
 Accuracy of NN for recognizing letter: 91.57%
+Accuracy of NN for recognizing number and letter combined: 91.39%
 Accuracy of SVM for recognizing number: 94.04%
 Accuracy of SVM for recognizing letter: 78.79%
 Accuracy of KNN for recognizing number: 97.05%
