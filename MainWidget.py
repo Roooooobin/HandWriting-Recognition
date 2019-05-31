@@ -77,7 +77,7 @@ class Ui_mainWidget(object):
 
     def retranslateUi(self, mainWidget):
         _translate = QtCore.QCoreApplication.translate
-        mainWidget.setWindowTitle(_translate("mainWidget", "Form"))
+        mainWidget.setWindowTitle(_translate("mainWidget", "Writing Pad"))
         self.clearButton.setText(_translate("mainWidget", "清空"))
         self.runButton.setText(_translate("mainWidget", "识别"))
         self.uploadButton.setText(_translate("mainWidget", "上传图片"))
