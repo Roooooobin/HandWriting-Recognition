@@ -42,7 +42,7 @@ class MainWindow(QMainWindow, Ui_mainWidget):  # 为了实现窗口的显示和�
         # 需要更名选择不同的model
         # 运行并返回预测结果
         prediction = run(img_path, model_path, algorithmName_sub[algorithm], target_sub[target])
-        prediction = str(prediction)
+        prediction = ' '.join([str(x) for x in prediction])
         print(prediction)
         self.resutLineEdit.setText(prediction)  # 将结果存放在LineEdit中
 

@@ -55,24 +55,26 @@ import random as rd
 # t = []
 # test(t)
 # print(t)
+#
+# array = np.zeros((10, 3))
+# for i in range(0, len(array)):
+#     for j in range(0, len(array[0])):
+#         array[i][j] = i + j
+# print(array)
+#
+# sequence = list(range(0, len(array)))
+# rd.shuffle(sequence)
+# print(sequence)
+# x_test_new = []
+# y_test_new = []
+# for i in sequence[:5]:
+#     x_test_new.append(array[i])
+#
+# x_test_new = np.array(x_test_new)
+# print(x_test_new)
+#
+# from datetime import datetime as dt
 
-array = np.zeros((10, 3))
-for i in range(0, len(array)):
-    for j in range(0, len(array[0])):
-        array[i][j] = i + j
-print(array)
-
-sequence = list(range(0, len(array)))
-rd.shuffle(sequence)
-print(sequence)
-x_test_new = []
-y_test_new = []
-for i in sequence[:5]:
-    x_test_new.append(array[i])
-
-x_test_new = np.array(x_test_new)
-print(x_test_new)
-
-from datetime import datetime as dt
-
-print(dt.now())
+l = [3, 2, 1, 5]
+l = ','.join(l)
+print(type(l))

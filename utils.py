@@ -95,13 +95,13 @@ def showResults(path, borders, method, results=None):
                 else:
                     cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
             elif method == "number":
-                cv2.putText(img, str(results[i]), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
+                cv2.putText(img, str(results[i]), border[1], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 255, 0), 1)
             elif method == "letter":
-                cv2.putText(img, chr(results[i]-1+65), border[0], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
+                cv2.putText(img, chr(results[i]-1+65), border[1], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
             else: pass
         # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
     cv2.namedWindow("test", 0)
-    cv2.resizeWindow("test", 800, 600)
+    cv2.resizeWindow("test", 900, 600)
     cv2.imshow('test', img)
     # 保存图像
     cv2.imwrite("test1_result1.png", img)

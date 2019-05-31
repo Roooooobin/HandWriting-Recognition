@@ -59,9 +59,9 @@ def run(imgPath, modelPath, method, target):
 
 if __name__ == "__main__":
     # 图片的路径
-    img_path = r"images\testImage.jpg"
+    # img_path = r"images\testImage.jpg"
     # img_path = r"images\number_test4.png"
-    # img_path = r"images\letter_test5.jpg"
+    img_path = r"images\letter_test7.png"
     # img_path = r"D:\data_images\train_letter\13\13_52.png"
     # img_path = r"D:\data_images\train_number\train_4.bmp"
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     # model_path = r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_number.m"
 
     algorithm = "NN"
-    target = "number"
+    target = "letter"
     model_path = model_path_dic[algorithm][target]
     # 运行并返回预测结果
     prediction = run(img_path, model_path, algorithmName_sub[algorithm], target)

@@ -37,7 +37,7 @@ class Ui_mainWidget(object):
                                         "color:#FFF;")
         self.uploadButton.setObjectName("uploadButton")
         self.resutLineEdit = QtWidgets.QLineEdit(mainWidget)
-        self.resutLineEdit.setGeometry(QtCore.QRect(785, 390, 151, 51))
+        self.resutLineEdit.setGeometry(QtCore.QRect(785, 390, 156, 80))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.resutLineEdit.setFont(font)
