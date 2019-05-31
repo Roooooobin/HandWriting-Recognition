@@ -81,24 +81,24 @@ def acc_KNN_letter():
     print(dt.now())
     (_, _), (x_test, y_test) = load_data_baseline_letter()
     # 测试一下运行大概需要的时间
-    # sequence = list(range(0, len(x_test)))
-    # rd.shuffle(sequence)
-    # y_test = reshape_label_classifier(y_test)
-    # x_test_new = []
-    # y_test_new = []
-    # for i in sequence:
-    #     x_test_new.append(x_test[i])
-    #     y_test_new.append(y_test[i])
-    # x_test_new = np.array(x_test_new)
-    # y_test_new = np.array(y_test_new)
+    sequence = list(range(0, len(x_test)))
+    rd.shuffle(sequence)
+    y_test = reshape_label_classifier(y_test)
+    x_test_new = []
+    y_test_new = []
+    for i in sequence[:]:
+        x_test_new.append(x_test[i])
+        y_test_new.append(y_test[i])
+    x_test_new = np.array(x_test_new)
+    y_test_new = np.array(y_test_new)
     clf_KNN = joblib.load(r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m")
-    classifierResult = clf_KNN.predict(x_test)
+    classifierResult = clf_KNN.predict(x_test_new)
     print(dt.now())
     errorCount = 0
-    for i in range(len(y_test)):
-        if classifierResult[i] != y_test[i]:
+    for i in range(len(y_test_new)):
+        if classifierResult[i] != y_test_new[i]:
             errorCount += 1
-    print("Accuracy of KNN for recognizing letter: %.2f%%" % ((len(y_test) - errorCount) / len(y_test) * 100), file=f)
+    print("Accuracy of KNN for recognizing letter: %.2f%%" % ((len(y_test_new) - errorCount) / len(y_test_new) * 100), file=f)
 
 
 if __name__ == "__main__":

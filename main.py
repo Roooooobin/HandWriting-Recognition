@@ -15,6 +15,8 @@ model_path_dic = {"CNN": {"number": "models\model_convolution_number.h5",
                           "letter": r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"}
                   }
 
+target_sub = {"数字": "number", "字母": "letter", "数字+字母": "combined"}
+
 
 def fit_model():
     fit_combined("convolution")
@@ -57,7 +59,7 @@ def run(imgPath, modelPath, method, target):
 
 if __name__ == "__main__":
     # 图片的路径
-    img_path = r"images\testImage.png"
+    img_path = r"images\testImage.jpg"
     # img_path = r"images\number_test4.png"
     # img_path = r"images\letter_test5.jpg"
     # img_path = r"D:\data_images\train_letter\13\13_52.png"
@@ -69,7 +71,7 @@ if __name__ == "__main__":
     # model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"
     # model_path = r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_number.m"
 
-    algorithm = "KNN"
+    algorithm = "NN"
     target = "number"
     model_path = model_path_dic[algorithm][target]
     # 运行并返回预测结果

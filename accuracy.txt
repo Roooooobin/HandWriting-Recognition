@@ -6,5 +6,4 @@ Accuracy of NN for recognizing number and letter combined: 91.39%
 Accuracy of SVM for recognizing number: 94.04%
 Accuracy of SVM for recognizing letter: 78.79%
 Accuracy of KNN for recognizing number: 97.05%
-Accuracy of KNN for recognizing letter: 87.80%
-Accuracy of KNN for recognizing letter: 86.72%
+Accuracy of KNN for recognizing letter: 86.38%
