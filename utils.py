@@ -82,6 +82,8 @@ def reshape_label_classifier(_y):
 
 # 显示结果及边框并保存（后续上到界面可能会有微调）
 def showResults(path, borders, method, results=None):
+    if results is None:
+        return
     img = cv2.imread(path)
     # 绘制
     # print(img.shape)
@@ -100,12 +102,12 @@ def showResults(path, borders, method, results=None):
                 cv2.putText(img, chr(results[i]-1+65), border[1], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
             else: pass
         # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
-    cv2.namedWindow("test", 0)
-    cv2.resizeWindow("test", 900, 600)
-    cv2.imshow('test', img)
+    # cv2.namedWindow("result", 0)
+    # cv2.resizeWindow("result", 900, 600)
+    # cv2.imshow('result', img)
     # 保存图像
-    cv2.imwrite("test1_result1.png", img)
-    cv2.waitKey(0)
+    cv2.imwrite("result.png", img)
+    # cv2.waitKey(0)
     # return ret
 
 # 根据不同的识别目标转换为合适的预测结果表示

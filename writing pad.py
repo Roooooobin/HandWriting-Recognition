@@ -45,6 +45,8 @@ class MainWindow(QMainWindow, Ui_mainWidget):  # 为了实现窗口的显示和�
         prediction = ' '.join([str(x) for x in prediction])
         print(prediction)
         self.resutLineEdit.setText(prediction)  # 将结果存放在LineEdit中
+        self.board.load("result.png")
+        self.update()
 
     def upload(self):
         filename = QFileDialog.getOpenFileName(None, 'open', ".")
@@ -72,7 +74,7 @@ class MainWindow(QMainWindow, Ui_mainWidget):  # 为了实现窗口的显示和�
         self.current_pos = QMouseEvent.pos()
         self.painter.begin(self.board)
 
-        self.painter.setPen(QPen(Qt.black, 8))
+        self.painter.setPen(QPen(Qt.black, 6))
 
         self.painter.drawLine(self.last_pos, self.current_pos)
         self.painter.end()

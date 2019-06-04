@@ -75,6 +75,8 @@ import random as rd
 #
 # from datetime import datetime as dt
 
-l = [3, 2, 1, 5]
-l = ','.join(l)
-print(type(l))
+import cv2
+
+
+array = np.array([[1, 2, 3], [2, 3, 4], [5, 6, 7]])
+print(array[1:3, 2:4])
