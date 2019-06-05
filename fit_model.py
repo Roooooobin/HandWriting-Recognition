@@ -35,6 +35,7 @@ def fit_number(method):
 
 
 def fit_letter(method):
+    # 根据method来选择训练的模型种类
     if method == "baseline":
         (x_train, y_train), (x_test, y_test) = load_data_baseline_letter()
         print(x_test.shape)
@@ -45,7 +46,7 @@ def fit_letter(method):
         # model = load_model(""model_baseline_letter.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
-        model.save("model_baseline_letter.h5")
+        model.save("model_baseline_letter.h5")  # 保存模型
     elif method == "convolution":
         (x_train, y_train), (x_test, y_test) = load_data_convolution_letter()
         model = model_convolution_letter()
@@ -53,7 +54,7 @@ def fit_letter(method):
         # model = load_model(""model_convolution_letter.h5")
         loss, accuracy = model.evaluate(x_test, y_test)
         print('loss {}, acc {}'.format(loss, accuracy))
-        model.save("model_convolution_letter.h5")
+        model.save("model_convolution_letter.h5")  # 保存模型
 
 
 def fit_combined(method):

@@ -52,6 +52,7 @@ def transMNIST(path, borders, method, size=(28, 28)):
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     img = accessBinary(img)
     for i, border in enumerate(borders):
+        # 图片中的x, y坐标与numpy中的数组下标x, y是相反的（！）
         borderImg = img[border[0][1]:border[1][1], border[0][0]:border[1][0]]
         # 根据最大边缘拓展像素
         extendPixel = (max(borderImg.shape) - min(borderImg.shape)) // 2

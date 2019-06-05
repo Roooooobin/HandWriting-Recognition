@@ -1,5 +1,5 @@
 import sys
-from MainWidget import Ui_mainWidget
+from UI_widgets import Ui_mainWidget
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PyQt5.Qt import QPixmap, QPainter, QPoint, QPen, QImage
 from PyQt5.QtCore import Qt
