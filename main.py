@@ -32,8 +32,6 @@ def fit_model():
 
 
 def run(imgPath, modelPath, method, target):
-    # 训练模型并保存
-    # fit_model()
     img = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
     borders = None
     flag = None
@@ -48,6 +46,7 @@ def run(imgPath, modelPath, method, target):
     else:
         # 为正常的28*28的图片
         img_mnist = img.reshape(1, 28 * 28)
+        cv2.imwrite("result.png", img)
     # 显示标记了测试结果的图片
     # print(predict_result)
     # 得到预测结果
@@ -58,25 +57,16 @@ def run(imgPath, modelPath, method, target):
 
 
 if __name__ == "__main__":
+    # 训练模型并保存
+    # fit_model()
+
     # 图片的路径
-    # img_path = r"images\testImage.jpg"
-    # img_path = r"images\number_test4.png"
-    img_path = r"images\letter_test7.png"
-    # img_path = r"D:\data_images\train_letter\13\13_52.png"
-    # img_path = r"D:\data_images\train_number\train_4.bmp"
+    img_path = r"images\letter_test2.jpg"
 
-    # 模型的路径
-    # model_path = "models\model_convolution_letter.h5"
-    # model_path = "models\model_convolution_number.h5"
-    # model_path = r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"
-    # model_path = r"C:\Users\robin\Desktop\Courses\models\SVM(C=1.0)_number.m"
-
-    algorithm = "NN"
+    # 通过算法和识别对象选择模型的路径
+    algorithm = "SVM"
     target = "letter"
     model_path = model_path_dic[algorithm][target]
     # 运行并返回预测结果
     prediction = run(img_path, model_path, algorithmName_sub[algorithm], target)
     print(prediction)
-    # run(img_path, model_path, "CLF", "letter")
-    # run_original_files(img_path, model_path, "baseline", "letter")
-    # run_original_files(img_path, model_path)

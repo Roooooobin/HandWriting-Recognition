@@ -87,6 +87,7 @@ def reshape_data_letter(x_train):
     x_train = x_train.reshape(len(x_train), 28, 28)
     n_data = len(x_train)
     for i in range(n_data):
+        # 负数表示顺时针(-1)*90
         x_train[i] = np.rot90(x_train[i], -1)
     for i in range(n_data):
         for m in x_train[i]:

@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
 
-# 反相灰度图，将黑白阈值颠倒
+# 反相灰度图，将黑白颠倒
 # 灰度值为0表示黑色，图片一般背景为白色，目标为黑色，所以需要反相
-def accessPiexl(img):
+def accessPixel(img):
     height = img.shape[0]
     width = img.shape[1]
     for i in range(height):
@@ -14,7 +14,7 @@ def accessPiexl(img):
 # 反相二值化图像
 # 设置一个阈值，将图像分为两部分，分成更明显的黑和白，更加有利于做图像处理判别
 def accessBinary(img, threshold=128):
-    img = accessPiexl(img)
+    img = accessPixel(img)
     # 边缘膨胀，不加也可以
     kernel = np.ones((3, 3), np.uint8)
     img = cv2.dilate(img, kernel, iterations=1)
@@ -22,16 +22,16 @@ def accessBinary(img, threshold=128):
     return img
 
 # 寻找边缘，返回边框的左上角和右下角（利用cv2.findContours）
+# 适当设置maxArea来避免识别一些噪声点
 def findBorderContours(path, maxArea=200):
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     # 去噪声
     img_denoised = cv2.fastNlMeansDenoising(img)
     img = accessBinary(img_denoised)
-    # cv2.imwrite("img_denoised.png", img_denoised)
     contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     borders = []
     for contour in contours:
-        # 将边缘拟合成一个边框
+        # 将边缘拟合成一个矩形边框，简化保存矩形的左上角和右下角的坐标
         x, y, w, h = cv2.boundingRect(contour)
         if w * h > maxArea:
             border = [(x, y), (x + w, y + h)]
@@ -54,8 +54,8 @@ def transMNIST(path, borders, method, size=(28, 28)):
     for i, border in enumerate(borders):
         borderImg = img[border[0][1]:border[1][1], border[0][0]:border[1][0]]
         # 根据最大边缘拓展像素
-        extendPiexl = (max(borderImg.shape) - min(borderImg.shape)) // 2
-        targetImg = cv2.copyMakeBorder(borderImg, 7, 7, extendPiexl + 7, extendPiexl + 7, cv2.BORDER_CONSTANT)
+        extendPixel = (max(borderImg.shape) - min(borderImg.shape)) // 2
+        targetImg = cv2.copyMakeBorder(borderImg, 7, 7, extendPixel + 7, extendPixel + 7, cv2.BORDER_CONSTANT)
         targetImg = cv2.resize(targetImg, size)
         if method == "convolution":
             targetImg = np.expand_dims(targetImg, axis=-1)
@@ -63,7 +63,6 @@ def transMNIST(path, borders, method, size=(28, 28)):
             targetImg = targetImg.reshape(28 * 28)
         else: pass
         imgData[i] = targetImg
-    print(imgData.shape)
     return imgData
 
 # 由于分类器的标签数据集格式与神经网络不一样，所以需要调整
@@ -80,7 +79,7 @@ def reshape_label_classifier(_y):
 
     return y_new
 
-# 显示结果及边框并保存（后续上到界面可能会有微调）
+# 显示结果及边框并保存
 def showResults(path, borders, method, results=None):
     if results is None:
         return
@@ -101,14 +100,13 @@ def showResults(path, borders, method, results=None):
             elif method == "letter":
                 cv2.putText(img, chr(results[i]-1+65), border[1], cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 1)
             else: pass
-        # cv2.circle(img, border[0], 1, (0, 255, 0), 0)
+    # 放弃弹出显示，而是显示在UI界面上
     # cv2.namedWindow("result", 0)
     # cv2.resizeWindow("result", 900, 600)
     # cv2.imshow('result', img)
     # 保存图像
     cv2.imwrite("result.png", img)
     # cv2.waitKey(0)
-    # return ret
 
 # 根据不同的识别目标转换为合适的预测结果表示
 def transformResult(prediction, target):

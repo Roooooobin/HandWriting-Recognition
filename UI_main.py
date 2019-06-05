@@ -57,6 +57,7 @@ class MainWindow(QMainWindow, Ui_mainWidget):  # 为了实现窗口的显示和�
         self.board.fill(Qt.white)
         self.update()
         self.is_empty = True
+        self.resutLineEdit.setText("")
 
     def paintEvent(self, paintEvent):
         self.painter.begin(self)

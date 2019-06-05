@@ -2,8 +2,8 @@ from keras.layers import Dense
 from keras.models import Sequential
 from keras import layers
 
-def model_convolution():
-    # 定义卷积神经网络模型（数字）
+def model_convolution_number():
+    # 建立卷积神经网络模型（数字）
     model = Sequential()
     model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
     model.add(layers.MaxPooling2D((2, 2)))
@@ -18,7 +18,7 @@ def model_convolution():
 
     return model
 
-def model_baseline():
+def model_baseline_number():
     # 多层感知机的baseline模型（数字）
     model = Sequential()
     model.add(Dense(input_dim=28*28, units=512, activation='relu'))
