@@ -2,7 +2,10 @@ from fit_model import *
 from utils import *
 from predicting import predict
 
+# 界面上的算法和识别对象的名字与算法中使用的有一些出入（为了界面用户体验），所以先更名
 algorithmName_sub = {"CNN": "convolution", "NN": "baseline", "SVM": "CLF", "KNN": "CLF"}
+
+target_sub = {"数字": "number", "字母": "letter", "数字+字母": "combined"}
 
 model_path_dic = {"CNN": {"number": "models\model_convolution_number.h5",
                           "letter": "models\model_convolution_letter.h5"},
@@ -14,8 +17,6 @@ model_path_dic = {"CNN": {"number": "models\model_convolution_number.h5",
                   "KNN": {"number": r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_number.m",
                           "letter": r"C:\Users\robin\Desktop\Courses\models\KNN(n=3)_letter.m"}
                   }
-
-target_sub = {"数字": "number", "字母": "letter", "数字+字母": "combined"}
 
 
 def fit_model():
@@ -61,12 +62,20 @@ if __name__ == "__main__":
     # fit_model()
 
     # 图片的路径
-    img_path = r"images\letter_test2.jpg"
+    img_path = r"images\letter_test23.jpg"
 
     # 通过算法和识别对象选择模型的路径
     algorithm = "SVM"
     target = "letter"
-    model_path = model_path_dic[algorithm][target]
-    # 运行并返回预测结果
-    prediction = run(img_path, model_path, algorithmName_sub[algorithm], target)
-    print(prediction)
+
+    # 防止传入错误的参数导致键值缺失，添加异常处理
+    try:
+        model_path = model_path_dic[algorithm][target]
+        # 运行并返回预测结果
+        prediction = run(img_path, model_path, algorithmName_sub[algorithm], target)
+    except:  # 如果图片路径下没有相应的图片或是模型路径下没有相应的模型，报错
+        print("the image or the algorithm dose not exist")
+    else:
+        # 如果没有出现异常则输出预测结果
+        prediction = ' '.join([str(x) for x in prediction])
+        print(prediction)

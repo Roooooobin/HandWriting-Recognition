@@ -75,44 +75,47 @@ import random as rd
 #
 # from datetime import datetime as dt
 
-import cv2
-
-
-array = np.array([[1, 2, 3], [2, 3, 4], [5, 6, 7]])
-print(array[0:3, 0:2])
-
-def accessPixel(img):
-    height = img.shape[0]
-    width = img.shape[1]
-    for i in range(height):
-        for j in range(width):
-            img[i][j] = 255 - img[i][j]
-    return img
-
-def accessBinary(img, threshold=128):
-    img = accessPixel(img)
-    # 边缘膨胀，不加也可以
-    kernel = np.ones((3, 3), np.uint8)
-    img = cv2.dilate(img, kernel, iterations=1)
-    _, img = cv2.threshold(img, threshold, 0, cv2.THRESH_TOZERO)
-    return img
-
-
-path = r"images\letter_test2.jpg"
-img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-img = accessBinary(img)
-contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-borders = []
-for contour in contours:
-    # 将边缘拟合成一个矩形边框，简化保存矩形的左上角和右下角的坐标
-    x, y, w, h = cv2.boundingRect(contour)
-    if w * h > 200:
-        border = [(x, y), (x + w, y + h)]
-        borders.append(border)
-print(borders)
-for i, border in enumerate(borders):
-    print(border[0][1], border[1][1])
-    borderImg = img[border[0][1]:border[1][1], border[0][0]:border[1][0]]
-    print(borderImg.shape)
-    print(borderImg)
-    break
+# import cv2
+#
+#
+# array = np.array([[1, 2, 3], [2, 3, 4], [5, 6, 7]])
+# print(array[0:3, 0:2])
+#
+# def accessPixel(img):
+#     height = img.shape[0]
+#     width = img.shape[1]
+#     for i in range(height):
+#         for j in range(width):
+#             img[i][j] = 255 - img[i][j]
+#     return img
+#
+# def accessBinary(img, threshold=128):
+#     img = accessPixel(img)
+#     # 边缘膨胀，不加也可以
+#     kernel = np.ones((3, 3), np.uint8)
+#     img = cv2.dilate(img, kernel, iterations=1)
+#     _, img = cv2.threshold(img, threshold, 0, cv2.THRESH_TOZERO)
+#     return img
+#
+#
+# path = r"images\letter_test2.jpg"
+# img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+# img = accessBinary(img)
+# contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+# borders = []
+# for contour in contours:
+#     # 将边缘拟合成一个矩形边框，简化保存矩形的左上角和右下角的坐标
+#     x, y, w, h = cv2.boundingRect(contour)
+#     if w * h > 200:
+#         border = [(x, y), (x + w, y + h)]
+#         borders.append(border)
+# print(borders)
+# for i, border in enumerate(borders):
+#     print(border[0][1], border[1][1])
+#     borderImg = img[border[0][1]:border[1][1], border[0][0]:border[1][0]]
+#     print(borderImg.shape)
+#     print(borderImg)
+#     break
+#
+dic = {"a": 1, "b": 2}
+print(dic["c"])
