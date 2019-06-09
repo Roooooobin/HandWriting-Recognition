@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from PyQt5.Qt import QPixmap, QPainter, QPoint, QPen, QImage
 from PyQt5.QtCore import Qt
 from main import model_path_dic, algorithmName_sub, target_sub, run
+from sklearn.externals import joblib
+from keras.models import load_model
 
 upload_tag = 0
 
@@ -41,8 +43,12 @@ class MainWindow(QMainWindow, Ui_mainWidget):  # 为了实现窗口的显示和�
         img_path = image_save_path
         # 由于尚未尝试用除NN外的算法去同时识别数字+字母，所以当选择其他算法时需要输出提示信息
         try:
-            # 需要更名选择不同的model
+            # 需要更名选择不同的model，可能会不存在，先load下来看是否报错
             model_path = model_path_dic[algorithm][target_sub[target]]
+            if algorithm == "SVM" or algorithm == "KNN":
+                model = joblib.load(model_path)
+            else:
+                model = load_model(model_path)
         except:  # 如果图片路径下没有相应的图片或是模型路径下没有相应的模型，报错
             QMessageBox.about(self, "提示", "暂不支持")
             self.resultLineEdit.setText("")

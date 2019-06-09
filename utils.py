@@ -28,7 +28,7 @@ def findBorderContours(path, maxArea=200):
     # 去噪声
     img_denoised = cv2.fastNlMeansDenoising(img)
     img = accessBinary(img_denoised)
-    contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     borders = []
     for contour in contours:
         # 将边缘拟合成一个矩形边框，简化保存矩形的左上角和右下角的坐标
